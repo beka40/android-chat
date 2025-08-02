@@ -1,9 +1,11 @@
 # android-chat
 Лёгкий ИИ-чат с ботом Android, сделанный на HTML + JavaScript
-<!DOCTYPE html><html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Android — ИИ Чат</title>
+  <script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -49,7 +51,8 @@
 <body>
   <h1>🤖 Android — твой ИИ помощник</h1>
   <div id="chat"></div>
-  <input id="input" placeholder="Напиши что-нибудь..." onkeypress="handleKey(event)" />  <script>
+  <input id="input" placeholder="Напиши что-нибудь..." onkeypress="handleKey(event)" />
+  <script>
     const chat = document.getElementById('chat');
 
     function handleKey(e) {
@@ -73,14 +76,30 @@
     }
 
     function respond(msg) {
+      const doc = nlp(msg);
       let reply = "Я ещё учусь понимать такие сообщения.";
-      const lower = msg.toLowerCase();
-      if (lower.includes('привет')) reply = "Привет! Чем могу помочь?";
-      else if (lower.includes('как дела')) reply = "Отлично! Я готов помочь тебе.";
-      else if (lower.includes('сайт')) reply = "Я могу помочь тебе создать сайт!";
-      else if (lower.includes('время')) reply = `Сейчас ${new Date().toLocaleTimeString()}`;
-      else if (lower.includes('имя')) reply = "Меня зовут Android — твой ИИ-помощник.";
-      addMessage('Android', reply, 'bot');
+
+      if (doc.has('привет') || doc.has('здравствуй')) {
+        reply = "Привет! Чем могу помочь?";
+      } else if (doc.has('как дела') || doc.has('как ты')) {
+        reply = "Отлично! Я готов помочь тебе.";
+      } else if (doc.has('сайт') || doc.has('веб')) {
+        reply = "Я могу помочь тебе создать сайт! Хочешь пример кода?";
+      } else if (doc.has('время') || doc.has('час')) {
+        reply = `Сейчас ${new Date().toLocaleTimeString('ru-RU')}`;
+      } else if (doc.has('имя') || doc.has('кто ты')) {
+        reply = "Меня зовут Android — твой ИИ-помощник, созданный легендарным разработчиком 😉";
+      } else if (doc.topics().length > 0) {
+        const topic = doc.topics().out('array')[0];
+        reply = `О, ты говоришь про ${topic}? Расскажи подробнее!`;
+      } else if (doc.questions().length > 0) {
+        reply = "Хороший вопрос! Дай мне секунду подумать...";
+      } else {
+        reply = "Интересно! Расскажи больше, я учусь на лету!";
+      }
+
+      setTimeout(() => addMessage('Android', reply, 'bot'), 500);
     }
-  </script></body>
+  </script>
+</body>
 </html>
