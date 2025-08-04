@@ -79,7 +79,7 @@
     .message {
       margin: 15px 0;
       padding: 12px 18px;
-      border-radius: 15px;
+      border-radius: 15px;  /* Исправлено: убрано CHA */
       max-width: 80%;
       animation: fadeIn 0.5s ease-in;
     }
@@ -120,7 +120,7 @@
     <button id="help">Помощь</button>
   </div>
   <script>
-    console.log('Скрипт загружен'); // Отладка
+    console.log('Скрипт загружен');
     const chatContainer = document.getElementById('chat-container');
     const input = document.getElementById('input');
     const sendBtn = document.getElementById('send');
@@ -134,10 +134,10 @@
       alert('Ошибка интерфейса. Проверь HTML.');
       return;
     }
-    console.log('DOM элементы найдены'); // Отладка
+    console.log('DOM элементы найдены');
 
     function addMessage(sender, text, className) {
-      console.log(`Добавление: ${sender} - ${text}`); // Отладка
+      console.log(`Добавление: ${sender} - ${text}`);
       const msgDiv = document.createElement('div');
       msgDiv.className = `message ${className}`;
       chatContainer.appendChild(msgDiv);
@@ -158,7 +158,7 @@
 
     function handleInput() {
       const msg = input.value.trim();
-      console.log('Введено:', msg); // Отладка
+      console.log('Введено:', msg);
       if (!msg) {
         addMessage('Neura', 'Йо, брат, напиши что-нибудь! 😊', 'bot');
         return;
@@ -169,13 +169,13 @@
     }
 
     sendBtn.addEventListener('click', () => {
-      console.log('Клик по Отправить'); // Отладка
+      console.log('Клик по Отправить');
       handleInput();
     });
 
     input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
-        console.log('Нажат Enter'); // Отладка
+        console.log('Нажат Enter');
         handleInput();
       }
     });
@@ -183,7 +183,7 @@
     clearBtn.addEventListener('click', () => {
       chatContainer.innerHTML = '';
       devMode = false;
-      console.log('Чат очищен'); // Отладка
+      console.log('Чат очищен');
     });
 
     helpBtn.addEventListener('click', () => {
